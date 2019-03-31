@@ -91,18 +91,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //8c52ff
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF8c52ff),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Image.asset(
-              'assets/images/logo.png',
-              height: 38.0,
-              width: 38.0,
+              'assets/images/logo2.png',
+              height: 40.0,
+              width: 220.0,
             ),
-            Text('T . A . L . K . I . E'),
             GestureDetector(
               onTap: _showDialog,
               child: Icon(Icons.info),
