@@ -1,21 +1,34 @@
-import 'dart:convert';
 
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:share/share.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(new MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Talkie',
+      title: 'InsydLyf',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Talkie'),
+      home: MyHomePage(title: 'InsydLyf'),
+      debugShowCheckedModeBanner:false,
     );
   }
 }
@@ -30,8 +43,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String advice = 'Thou shall be awesomely Advised\nOya, Keep Pressing Refresh';
+  String advice = 'Welcome to Lyf';
+  final color1=const Color(0xFFE1094E);
+  Size deviceSize;
+  String _timeString;
 
+  @override
+  void initState() {
+    super.initState();
+    _timeString = "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
+    Timer.periodic(Duration(seconds:1), (Timer t)=>_getCurrentTime());
+    _getAdvice();
+
+  }
+
+  void _getCurrentTime()  {
+    setState(() {
+      _timeString = "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
+    });
+  }
   dynamic _getAdvice() async {
     var url = 'https://api.adviceslip.com/advice';
     try {
@@ -67,14 +97,24 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Talkie: by C-Spydo",
-              style: TextStyle(color: Colors.redAccent)),
-          content: new Text(
-              "Talkie advises you......& whatever\n\n"
-              "Developer:C-Spydo ( cspydo.com.ng, csamsonok@gmail.com, +2348137442067"
-              "\n\nBTW: You should update often, possibly weekly",
-              style: TextStyle(fontSize: 13.0)),
+        return CupertinoAlertDialog(
+          title: new Text("InsydLyf",
+              style: TextStyle(color: color1,fontSize: 18.0)),
+          content: Container(
+            margin: EdgeInsets.only(top:10.0),
+          child:Column(
+//            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("Developer: C-Spydo\n\n"
+                      "Email: csamsonok@gmail.com\n\n"
+                      "Website: cspydo.com.ng",
+                  style: TextStyle(fontSize: 15.0),
+                textAlign: TextAlign.left,
+              ),
+            ],
+          ),),
+
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -91,46 +131,111 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //8c52ff
+    deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF8c52ff),
+        backgroundColor: color1,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Image.asset(
-              'assets/images/logo2.png',
-              height: 40.0,
-              width: 220.0,
-            ),
+//            Image.asset(
+//              'assets/images/logo2.png',
+//              height: 40.0,
+//              width: 220.0,
+//            ),
+            Text("InsydLyf",
+                style:  TextStyle(
+                    fontSize: 37.0,
+                    letterSpacing: 1,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+                ),
+
+
             GestureDetector(
               onTap: _showDialog,
-              child: Icon(Icons.info),
+              child: Icon(Icons.info,size: 28.0,),
             ),
           ],
         ),
       ),
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.only(left: 25.0, right: 25.0),
+      body:  Container(
+          padding: EdgeInsets.only(left: 25.0, right: 12.0),
+        height: deviceSize.height,
+        width: deviceSize.width,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+//            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("\" " + advice + " \"",
-                  style: TextStyle(
-                      fontSize: 22.0,
-                      color: Colors.redAccent,
-                      fontWeight: FontWeight.bold)),
+              Container(
+                margin: EdgeInsets.only(top:5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Text(DateFormat('dd-MM-yyyy').format(DateTime.now())+"\n"
+                      +_timeString,
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          color: color1,
+                      ),
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),),
+
+              Container(
+                  margin: EdgeInsets.only(right:13.0,top:deviceSize.width*0.59),
+
+                  child:Column(
+
+                  children: <Widget>[
+                    Text("The Word",
+                        style: TextStyle(
+                            fontSize: 22.0,
+                            color: color1,
+                            fontWeight: FontWeight.bold)),
+
+                    SizedBox(height: 20.0,),
+                    Container(color:color1, height: 1.0, width: deviceSize.width-10, margin: EdgeInsets.only(bottom: 15.0),),
+                    Container(width:deviceSize.width-85,
+                        child:Text("\" " + advice + " \"", style: TextStyle(
+                          fontSize: 22.0, color: color1, fontWeight: FontWeight.normal, fontStyle: FontStyle.italic,),
+                          textAlign: TextAlign.center,)),
+                    Container(color:color1, height: 1.0, width: deviceSize.width-120.0, margin: EdgeInsets.only(top: 15.0),),
+                    Container(
+                      height: 45,
+                      width: 120.0,
+                      margin: EdgeInsets.only(top:10.0),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: RaisedButton(
+                          splashColor: Colors.redAccent,
+                          onPressed: () {
+                            _getAdvice();
+                          },
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0),side: BorderSide(color: Colors.redAccent)),
+                          child: Text("Another One", style: TextStyle(color: Colors.white)),
+                          color: color1,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              )
+
             ],
           ),
         ),
-      ),
+
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.redAccent,
-        onPressed: _getAdvice,
+        backgroundColor: color1,
+        onPressed: (){
+          Share.share(advice);
+        },
         tooltip: 'Refresh',
         child: Icon(
-          Icons.refresh,
+          Icons.share,
+          size: 30.0,
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
