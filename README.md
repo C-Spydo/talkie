@@ -1,16 +1,12 @@
 # talkie
+26-04-2021
+Talkie is meant to be a daily companion. An app on your phone that talks to you, advices you randomly and somehow be some sort of virtual, non-intrusive, there when you need it friend.
 
-Talkie talks to you.... and whatever
+At least that was the goal when started it. I hope it does all that and more eventually.
 
-## Getting Started
+Right now, all it does is to randomly dispense advice as long as you keep clicking Next.
+(Thanks to  'https://api.adviceslip.com/advice').
 
-This project is a starting point for a Flutter application.
+It is written (and shall continue to be written) in flutter.
+Y'all are welcome to contribute.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
